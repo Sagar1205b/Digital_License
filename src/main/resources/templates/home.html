@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page </title>
+</head>
+<body>
+<h2> your Company Home Page - Yoohooooooo!  No SOUP!</h2>
+<hr>
+<p>Welcome to your Company Home page!</p>
+<p><a th:href="@{/digital/LoginPage}">Lets login</a></p>
+
+<hr>
+
+
+<hr>
+<!-- Add a link to point to /leader. this is for the managers-->
+
+<!--<div sec:authorize="hasRole('MANAGER')">-->
+<!--    <p> <a th:href="@{/leaders}"> LeaderShip Meeting</a>-->
+<!--        (Only for Managers peeps)-->
+<!--    </p>-->
+<!--</div>-->
+
+<!--<br>-->
+
+<!--<div sec:authorize="hasRole('ADMIN')">-->
+<!--    <p> <a th:href="@{/admins}"> ADMINS Meeting</a>-->
+<!--        (Only for ADMINS peeps)-->
+<!--    </p>-->
+<!--</div>-->
+
+<!--<hr>-->
+<!--  <form action="#" th:action="@{logout}" method="POST">-->
+<!--      <input type="submit" value="Logout"/>-->
+<!--  </form>-->
+</body>
+</html>
