@@ -2,36 +2,63 @@ package com.sagar.Digital.Digital_License.Controller;
 
 import com.sagar.Digital.Digital_License.Model.LicenseHolder;
 import com.sagar.Digital.Digital_License.Model.SubjectRequest;
+import com.sagar.Digital.Digital_License.Model.SubjectUser;
+import com.sagar.Digital.Digital_License.Repository.LicenseHolderRepository;
 import com.sagar.Digital.Digital_License.Service.SubjectService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/digital")
 public class SubjectController {
-    private  final SubjectService subjectService;
 
-    public SubjectController(SubjectService subjectService) {
+
+
+    private  final LicenseHolderRepository licenseHolderRepository;
+
+    private final SubjectService subjectService;
+
+    @Autowired
+    public SubjectController(LicenseHolderRepository licenseHolderRepository, SubjectService subjectService) {
+        this.licenseHolderRepository = licenseHolderRepository;
+
         this.subjectService = subjectService;
     }
 
-    @PostMapping("/subject/create")
-    @ResponseBody
-    public ResponseEntity<String> createSubject(@RequestBody SubjectRequest request, HttpSession session) {
-//        LicenseHolder loggedInUser = (LicenseHolder) session.getAttribute("user");
-
-//        if (loggedInUser == null) {
-//            return ResponseEntity.status(401).body("Unauthorized - Please log in");
-//        }
-
-
-
-      return subjectService.createSubject(request.getSubject());
+    // GET method to display the form
+    @GetMapping("/subject/create")
+    public String showCreateSubjectForm(Model model) {
+        model.addAttribute("subjectcreation", new SubjectRequest()); // Initialize form backing object
+        return "createSubject"; // Thymeleaf template
     }
 
+    // POST method to handle form submission
+
+    @PostMapping("/subject/create")
+    public String submitSubjectForm(@ModelAttribute("subjectcreation") SubjectRequest subjectDTO) {
+
+        subjectService.createSubject(subjectDTO.getSubject());
+        subjectService.createAndSaveSubject(String.valueOf(subjectDTO.getSubject()));
+
+        return "redirect:/digital/subject/create";
+    }
+
+   /* @PostMapping("/subject/create1")
+    public String submitSubjectAndForm(@ModelAttribute("subjectcreation") SubjectRequest subjectDTO) {
+
+    subjectService.createSubject(String.valueOf(subjectDTO.getSubject()));
+    SubjectUser user=new SubjectUser();
+    user.setSubject(subjectDTO.getSubject());
+    user.getId();
+
+    subjectService.save(user);
+
+        return "redirect:/digital/subject/create";
+    }*/
 
 
 }

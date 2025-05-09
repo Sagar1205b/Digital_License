@@ -58,12 +58,31 @@
 <body>
 <div class="form-container">
   <h2>Create Subject</h2>
-  <form th:action="@{/subject/create}" th:object="${subjectcreation}" method="post" >
-    <input type="text" id="subjectName" name="subjectName" placeholder="Enter subject name" />
+  <form th:action="@{/digital/subject/create}" th:object="${subjectcreation}" method="post">
+    <input type="text" th:field="*{subject}" placeholder="Enter subject name" th:required maxlength="50" />
     <button type="submit">Create</button>
   </form>
+
   <div class="message" id="message"></div>
 </div>
 
 <script>
   function handleSubmit(event) {
+    const input = document.querySelector('input[name="subjectName"]');
+    const messageDiv = document.getElementById("message");
+
+    if (!input.value.trim()) {
+      event.preventDefault();
+      messageDiv.textContent = "Subject name cannot be empty.";
+      messageDiv.style.color = "red";
+      return false;
+    }
+
+    // Optionally clear message and allow form to submit
+    messageDiv.textContent = "Submitting...";
+    messageDiv.style.color = "black";
+    return true;
+  }
+</script>
+</body>
+</html>

@@ -9,4 +9,5 @@ public interface LicenseHolderRepository extends JpaRepository<LicenseHolder,Int
 
 
     Optional<LicenseHolder> findByUsername(String username);
+
 }

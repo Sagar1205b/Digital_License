@@ -51,8 +51,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/digital/signup","/css/**", "/js/**", "/assets/**","/img/**","/logos/**","/team/**").permitAll()
-                                .anyRequest().permitAll()
+                                .requestMatchers("/digital/signup","/digital/index","/css/**", "/js/**", "/assets/**","/img/**","/logos/**","/team/**").permitAll()
+//                                .requestMatchers(HttpMethod.POST, "/digital/subject/create").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(form ->
                         form

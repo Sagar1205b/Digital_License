@@ -28,10 +28,11 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link" href="#services">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" th:href="@{/digital/createSubject}">UploadForLicense</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject/create}">Create</a></li>
                         <li class="nav-item"><a class="nav-link" href="#about">Verification</a></li>
-<!--                        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>-->
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item" th:if="${username!=null}"><a class="nav-link" th:href="@{/digital/logout}">logout</a></li>
+                        <li class="nav-item" th:if="${username==null}"><a class="nav-link" th:href="@{/digital/LoginPage} ">Login</a></li>
+                        <li class="nav-item" th:if="${username==null}"><a class="nav-link" th:href="@{/digital/signup}">SignUp</a></li>
                     </ul>
                 </div>
             </div>
