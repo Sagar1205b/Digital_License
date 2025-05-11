@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Face Result</title>
+</head>
+<body>
+<h1>Face Recognition Result</h1>
+<div th:each="result : ${faceResponse.result}">
+
+    <!-- Display Subject -->
+    <div th:text="'Subject: ' + ${result.subjects[0].subject}"></div>
+
+    <!-- Display Age Range -->
+
+    <!-- Display Gender -->
+<!--    <div th:text="'Gender: ' + ${result.gender != null ? result.gender.value : 'Not Available'}"></div>-->
+    <div th:text="'Similarity: ' + ${result.subjects[0].similarity}"></div>
+    <div th:if="${result.subjects[0].similarity > 0.87}">
+        <button th:text="'Report'">Report</button>
+    </div>
+
+
+</div>
+
+</body>
+</html>
