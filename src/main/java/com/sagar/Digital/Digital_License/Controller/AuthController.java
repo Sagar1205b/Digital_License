@@ -44,6 +44,22 @@ public class AuthController {
 //        use redirect to prevent duplicate submissions
         return  "redirect:/digital/home";
     }
+
+
+//    @PostMapping("/save")
+//    public  String saveLicenseHolder(@ModelAttribute("licenseholder")LicenseHolder thelicenseHolder){
+//
+//
+////
+//        licenseHolderService.save(thelicenseHolder);
+////        UsernamePasswordAuthenticationToken authRequest =
+////                new UsernamePasswordAuthenticationToken(thelicenseHolder.getUsername(), thelicenseHolder.getPassword());
+//
+////        Authentication authentication = authenticationManager.authenticate(authRequest);
+////        SecurityContextHolder.getContext().setAuthentication(authentication);
+////        use redirect to prevent duplicate submissions
+//        return  "redirect:/digital/home";
+//    }
 }
 
 

@@ -2,33 +2,61 @@ package com.sagar.Digital.Digital_License.Controller;
 
 import com.sagar.Digital.Digital_License.Model.Recgonition.FaceResponse;
 import com.sagar.Digital.Digital_License.Service.FaceResponseService;
+import com.sagar.Digital.Digital_License.Service.VerificationService;
+import com.sagar.Digital.Digital_License.Util.InstagramImageExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@RestController
-@RequestMapping("api")
+@Controller
+@RequestMapping("/digital")
 public class VerificationController {
 
-    @Autowired
-    private FaceResponseService faceResponseService;
+   @Autowired
+   private VerificationService verificationService;
 
-    @PostMapping("/verification")
-    public ResponseEntity<FaceResponse> recogiseFace(
-            @RequestParam("det_prob_threshold") String threshold,
-            @RequestParam("file") MultipartFile file)
+   @GetMapping("/getVerification")
+   public String getVerification(){
+       return "verification2Images";
+   }
+    @PostMapping("/recognitionverify")
+    public String TestPhoto_recognitionFace(
+            Model model,
+            @RequestParam("file1") MultipartFile file1,@RequestParam("file2") MultipartFile file2)
     {
+
         try {
-            FaceResponse response=faceResponseService.faceResponse(threshold,file);
-            return ResponseEntity.ok(response);
+            FaceResponse faceResponse = verificationService.faceResponse(file1,file2);
+            model.addAttribute("faceResponse", faceResponse);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return "home";
+    }
+
+    @PostMapping("/verification")
+    public String recognizeFaceFromUrl(
+            @RequestParam("imageUrl") String profileUrl, Model model) {
+        try {
+            String imageUrl = null;
+            try {
+                imageUrl = InstagramImageExtractor.getProfileImageUrl(profileUrl);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            // Use the URL to get the image and process it for face recognition
+            FaceResponse faceResponse1 = verificationService.faceResponseFromUrl(imageUrl);
+            model.addAttribute("faceResponse", faceResponse1);
+
+        } catch (IOException e) {
+            model.addAttribute("error", "Image recognition failed: " + e.getMessage());
+        }
+        return "faceResult";
     }
 }

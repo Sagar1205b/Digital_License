@@ -26,7 +26,7 @@ public class AddImageService {
 
     private  final RestTemplate restTemplate=new RestTemplate();
 
-    public AddImage addImage(String subject, String threshold, MultipartFile file)throws IOException{
+    public AddImage addImage(String subject,  MultipartFile file)throws IOException{
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("x-api-key", apiKey);
@@ -34,7 +34,7 @@ public class AddImageService {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", new MultipartInputStreamFileResource(file.getInputStream(), file.getOriginalFilename()));
 
-        String url = externalApiUrl + "?subject=" + subject + "&det_prob_threshold=" + threshold;
+        String url = externalApiUrl + "?subject=" + subject;
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 

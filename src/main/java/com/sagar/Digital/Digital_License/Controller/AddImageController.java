@@ -2,34 +2,59 @@ package com.sagar.Digital.Digital_License.Controller;
 
 
 import com.sagar.Digital.Digital_License.Model.AddImage;
+import com.sagar.Digital.Digital_License.Model.SubjectRequest;
 import com.sagar.Digital.Digital_License.Service.AddImageService;
+import com.sagar.Digital.Digital_License.Service.SubjectService;
+import com.sagar.Digital.Digital_License.Util.MultipartInputStreamFileResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
-@RestController
-@RequestMapping("/api")
+@Controller
+@RequestMapping("/digital")
 public class AddImageController {
 
     @Autowired
     private AddImageService addImageService;
 
+    @Autowired
+    private SubjectService subjectService;
+
+    @GetMapping("/subject-dropdown")
+    public String getSubjectDropdown(Model model) {
+        List<String> subjects = subjectService.getAllSubjects();
+        model.addAttribute("subjects", subjects);
+        return "UploadFile"; // Return the view that displays the dropdown
+    }
+
     @PostMapping("/faces")
-    public ResponseEntity<AddImage> recognizeFace(
-            @RequestParam("subject") String subject,
-            @RequestParam("det_prob_threshold") String threshold,
-            @RequestParam("file") MultipartFile file){
+    public String Uploadimage(@ModelAttribute("imageupload") AddImage addImage,
+                              @RequestParam("file") MultipartFile file) {
         try {
-            AddImage response=addImageService.addImage(subject,threshold,file);
-            return ResponseEntity.ok(response);
+            addImageService.addImage(addImage.getSubject(), file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return "faceResponse";
     }
+
+
+//    @PostMapping("/faces")
+//    public ResponseEntity<AddImage> recognizeFace(
+//            @RequestParam("subject") String subject,
+////            @RequestParam("det_prob_threshold") String threshold,
+//            @RequestParam("file") MultipartFile file){
+//        try {
+//            AddImage response=addImageService.addImage(subject,file);
+//            return ResponseEntity.ok(response);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

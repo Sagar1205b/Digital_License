@@ -10,6 +10,7 @@ public class LicenseHolder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
     private String username;
 
     private String email;
@@ -17,6 +18,17 @@ public class LicenseHolder {
     private String password;
 
     private String role;  // Added role field
+
+    @Transient
+    private Integer otp;
+
+    public Integer getOtp() {
+        return otp;
+    }
+
+    public void setOtp(Integer otp) {
+        this.otp = otp;
+    }
 
     public LicenseHolder() {
     }

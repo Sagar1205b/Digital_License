@@ -1,16 +1,14 @@
 package com.sagar.Digital.Digital_License.Controller;
 
-import com.sagar.Digital.Digital_License.Model.LicenseHolder;
 import com.sagar.Digital.Digital_License.Model.SubjectRequest;
-import com.sagar.Digital.Digital_License.Model.SubjectUser;
 import com.sagar.Digital.Digital_License.Repository.LicenseHolderRepository;
 import com.sagar.Digital.Digital_License.Service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/digital")
@@ -46,6 +44,9 @@ public class SubjectController {
 
         return "redirect:/digital/subject/create";
     }
+
+
+
 
    /* @PostMapping("/subject/create1")
     public String submitSubjectAndForm(@ModelAttribute("subjectcreation") SubjectRequest subjectDTO) {

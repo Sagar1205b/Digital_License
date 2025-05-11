@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Service
 public class SubjectServiceImpl implements SubjectService {
 
@@ -64,4 +66,11 @@ public class SubjectServiceImpl implements SubjectService {
 
          return  subjectRepository.save(user);
     }
+
+    @Override
+    public List<String> getAllSubjects() {
+        return subjectRepository.findAllDistinctSubjects();
+    }
+
+
 }
