@@ -4,9 +4,7 @@ import com.sagar.Digital.Digital_License.Service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.event.EventListener;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Random;
@@ -23,10 +21,10 @@ public class DigitalLicenseApplication {
 		return new RestTemplate();
 	}
 
-	Random random=new Random();
-	int otp=100000+random.nextInt(900000);
-	@Autowired
-	private EmailSenderService emailSenderService;
+//	Random random=new Random();
+//	int otp=100000+random.nextInt(900000);
+//	@Autowired
+//	private EmailSenderService emailSenderService;
 //
 //	String body = "Hi Sagar,\nYour one time password is " + otp + ".\nPlease don't share this with anyone.";
 //	@EventListener(ApplicationReadyEvent.class)

@@ -51,7 +51,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/digital/signup","/digital/index","/css/**", "/js/**", "/assets/**","/img/**","/logos/**","/team/**").permitAll()
+                                .requestMatchers("/digital/signup","/digital/save","/digital/index","/digital/verify-otp","/css/**", "/js/**", "/assets/**","/img/**","/logos/**","/team/**").permitAll()
 //                                .requestMatchers(HttpMethod.POST, "/digital/subject/create").permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -59,7 +59,7 @@ public class SecurityConfig {
                         form
                                 .loginPage("/digital/LoginPage")
                                 .loginProcessingUrl("/authenticateTheUser")
-                                .defaultSuccessUrl("/digital/home", true)
+                                .defaultSuccessUrl("/digital/index", true)
                                 .permitAll()
                 )
 //                to logout from home page

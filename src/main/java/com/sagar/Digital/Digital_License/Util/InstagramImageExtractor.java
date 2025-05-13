@@ -46,7 +46,7 @@ public class InstagramImageExtractor {
             return imageUrl;
 
         } catch (Exception e) {
-            throw new Exception("Failed to scrape image from GramSnap: " + e.getMessage(), e);
+            throw new Exception("Failed to scrape image from molly gram: " + e.getMessage(), e);
         } finally {
             driver.quit();
         }

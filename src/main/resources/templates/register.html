@@ -12,6 +12,29 @@
 
 
 <!--spring security will rad the dta from here-->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="#page-top">
+            <!--                    <img src="assets/img/navbar-logo.svg" alt="..." />-->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars ms-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                                        <li class="nav-item"><a class="nav-link" th:href="@{/digital/index}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject-dropdown}">AddImage</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject/create}">Create-Folder</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/recognitionPage}">Recognition</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/getVerification}">Verification</a></li>
+                <li class="nav-item" th:if="${username!=null}"><a class="nav-link" th:href="@{/digital/logout}">logout</a></li>
+                <li class="nav-item" th:if="${username==null}"><a class="nav-link" th:href="@{/digital/LoginPage} ">Login</a></li>
+                <li class="nav-item" th:if="${username==null}"><a class="nav-link" th:href="@{/digital/signup}">SignUp</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <section class="vh-100" style="background-color: #9A616D;">
     <div class="container py-5 h-100">
@@ -66,7 +89,7 @@
                                     </div>
 
                                     <a class="small text-muted" href="#!">Forgot password?</a>
-                                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? <a href="#!"
+                                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? <a th:href="@{/digital/LoginPage}"
                                                                                                               style="color: #393f81;">Login here</a></p>
                                     <a href="#!" class="small text-muted">Terms of use.</a>
                                     <a href="#!" class="small text-muted">Privacy policy</a>

@@ -4,6 +4,8 @@ public class Gender {
     private  double probability;
     private  String value;
 
+
+
     public double getProbability() {
         return probability;
     }

@@ -3,23 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Create Subject</title>
-  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-  <!-- Font Awesome icons (free version)-->
-  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-  <!-- Google fonts-->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="/css/styles.css" rel="stylesheet" />
   <style>
-<!--    body {-->
-<!--      font-family: Arial, sans-serif;-->
-<!--      background: #f2f2f2;-->
-<!--      display: flex;-->
-<!--      align-items: center;-->
-<!--      justify-content: center;-->
-<!--      height: 100vh;-->
-<!--    }-->
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 
     .form-container {
       background: white;
@@ -75,7 +67,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-        <li class="nav-item"><a class="nav-link" th:href="@{#}"><span th:text="${username}"></span></a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/digital/index}">Home</a></li>
         <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject-dropdown}">AddImage</a></li>
         <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject/create}">Create-Folder</a></li>
         <li class="nav-item"><a class="nav-link" th:href="@{/digital/recognitionPage}">Recognition</a></li>
@@ -87,20 +79,15 @@
     </div>
   </div>
 </nav>
-<header class="masthead">
-  <div class="container">
-    <div STYLE="width:500px;" >
-      <h2>Create Subject</h2>
-      <form th:action="@{/digital/subject/create}" th:object="${subjectcreation}" method="post">
-        <input type="text" th:field="*{subject}" placeholder="Enter subject name" th:required maxlength="50" />
-        <button type="submit">Create</button>
-      </form>
+<div class="form-container">
+  <h2>Email Verification</h2>
+  <form th:action="@{/digital/verify-otp}"  method="post">
+    <input type="number"  name="otp" placeholder="Enter OneTimePassword" th:required  />
+    <button type="submit">Submit</button>
+  </form>
 
-      <div class="message" id="message"></div>
-    </div>
-  </div>
-</header>
-
+  <div class="message" id="message"></div>
+</div>
 
 <script>
   function handleSubmit(event) {
@@ -120,6 +107,5 @@
     return true;
   }
 </script>
-
 </body>
 </html>

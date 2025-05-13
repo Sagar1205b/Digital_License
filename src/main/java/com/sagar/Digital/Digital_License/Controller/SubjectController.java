@@ -4,6 +4,8 @@ import com.sagar.Digital.Digital_License.Model.SubjectRequest;
 import com.sagar.Digital.Digital_License.Repository.LicenseHolderRepository;
 import com.sagar.Digital.Digital_License.Service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,9 @@ public class SubjectController {
     // GET method to display the form
     @GetMapping("/subject/create")
     public String showCreateSubjectForm(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username",username);
         model.addAttribute("subjectcreation", new SubjectRequest()); // Initialize form backing object
         return "createSubject"; // Thymeleaf template
     }

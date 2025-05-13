@@ -16,19 +16,30 @@ public class LicenseHolderService implements LicenseHolderServiceImpl{
     @Autowired
     private LicenseHolderRepository licenseHolderRepository;
 
+    @Autowired
+    private EmailSenderService emailSenderService;
+
     private  final BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
 
-    public LicenseHolderService(LicenseHolderRepository licenseHolderRepository) {
+    public LicenseHolderService(LicenseHolderRepository licenseHolderRepository, EmailSenderService emailSenderService) {
         this.licenseHolderRepository = licenseHolderRepository;
+        this.emailSenderService = emailSenderService;
     }
 
 
     @Override
     public LicenseHolder save(LicenseHolder theLicenseHolder) {
         Optional<LicenseHolder> existingUser=licenseHolderRepository.findByUsername(theLicenseHolder.getUsername());
+        Optional<LicenseHolder> existingEmail=licenseHolderRepository.findByEmail(theLicenseHolder.getEmail());
+
         if(existingUser.isPresent()){
             throw  new RuntimeException("username is already taken");
         }
+        if(existingEmail.isPresent()){
+            throw  new RuntimeException("Email is already Used");
+        }
+
+
         theLicenseHolder.setPassword(passwordEncoder.encode(theLicenseHolder.getPassword()));
         if (theLicenseHolder.getRole() == null || theLicenseHolder.getRole().isEmpty()) {
             theLicenseHolder.setRole("ROLE_USER");  // Default role

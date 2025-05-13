@@ -1,150 +1,180 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <title>Upload Image</title>
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="/css/styles.css" rel="stylesheet" />
 
-  <title>UploadImage</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
   <style>
     #videoElement {
       border: 1px solid #ccc;
       margin-bottom: 10px;
       width: 100%;
     }
-
-    #capturedImage {
+    #capturedImage, #previewContainer img {
       max-width: 100%;
-      margin-top: 20px;
       border: 1px solid #ccc;
-    }
-
-    #captureButton {
       margin-top: 10px;
     }
-
     #pasteArea {
       border: 2px dashed #ccc;
       padding: 10px;
       margin-top: 10px;
+      min-height: 100px;
     }
   </style>
 </head>
 <body>
-
-<form th:action="@{/digital/recognition}" method="post" enctype="multipart/form-data">
-  <div class="mb-3">
-    <label for="formFile" class="form-label">Upload Your Photo</label>
-    <input class="form-control" type="file" id="formFile" name="file">
-
-    <!-- Live Video Feed -->
-    <video id="videoElement" width="640" height="480" autoplay></video>
-    <button type="button" id="captureButton" class="btn btn-primary">Capture Photo</button>
-
-    <!-- Canvas for Capturing the Image -->
-    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
-    <input type="hidden" name="file" id="capturedFileInput">
-
-    <div id="pasteArea" contenteditable="true">
-      Paste your image here (Ctrl+V)
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="#page-top">
+      <!--                    <img src="assets/img/navbar-logo.svg" alt="..." />-->
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars ms-1"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+        <li class="nav-item"><a class="nav-link" th:href="@{/digital/home}"><span th:text="${username}">home</span></a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject-dropdown}">AddImage</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject/create}">Create-Folder</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/digital/recognitionPage}">Recognition</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/digital/getVerification}">Verification</a></li>
+        <li class="nav-item" th:if="${username!=null}"><a class="nav-link" th:href="@{/digital/logout}">logout</a></li>
+        <li class="nav-item" th:if="${username==null}"><a class="nav-link" th:href="@{/digital/LoginPage} ">Login</a></li>
+        <li class="nav-item" th:if="${username==null}"><a class="nav-link" th:href="@{/digital/signup}">SignUp</a></li>
+      </ul>
     </div>
   </div>
+</nav>
+<header class="masthead">
+  <div class="container">
+    <div class="container mt-4">
+      <h2 class="text-center mb-4">Upload or Capture Image</h2>
 
-  <button type="submit" class="btn btn-primary">Create</button>
-</form>
+      <!-- Main Form -->
+      <form th:action="@{/digital/recognition}" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <!-- File Upload -->
+          <label for="formFile" class="form-label">Upload a Photo</label>
+          <input class="form-control" type="file" id="formFile" name="file" required>
 
-<form th:action="@{/digital/recognitionUrl}" method="post" enctype="multipart/form-data">
-  <div class="mb-3">
-    <label for="imageUrl" class="form-label">Account URL</label>
-    <input class="form-control" type="text" id="imageUrl" name="imageUrl" />
+          <!-- Webcam Capture -->
+          <h5 class="mt-4">Capture via Camera</h5>
+          <video id="videoElement" width="640" height="480" autoplay></video>
+          <button type="button" id="captureButton" class="btn btn-primary mt-2">Capture Photo</button>
 
-    <button type="submit" class="btn btn-primary">Create</button>
+          <!-- Preview Container -->
+          <div id="previewContainer" class="mt-3"></div>
+
+          <!-- Paste Image -->
+<!--          <h5 class="mt-4">Paste an Image (Ctrl+V)</h5>-->
+<!--          <div id="pasteArea" contenteditable="true" class="form-control">-->
+<!--            Paste your image here-->
+<!--          </div>-->
+        </div>
+
+        <button type="submit" class="btn btn-success mt-4 w-100">Submit</button>
+      </form>
+
+      <!-- Optional: URL Submission -->
+      <form th:action="@{/digital/recognitionUrl}" method="post" class="mt-4">
+        <div class="mb-3">
+          <label for="imageUrl" class="form-label">Enter Image URL</label>
+          <input class="form-control" type="text" id="imageUrl" name="imageUrl" />
+          <button type="submit" class="btn btn-secondary mt-2">Submit URL</button>
+        </div>
+      </form>
+    </div>
   </div>
-</form>
+</header>
 
-<!-- Optional JavaScript; choose one of the two! -->
-<!-- Option 1: Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+<!-- Scripts -->
 <script>
   const video = document.getElementById('videoElement');
   const captureButton = document.getElementById('captureButton');
-  const canvas = document.getElementById('canvas');
+  const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
-  const capturedFileInput = document.getElementById('capturedFileInput');
-  const pasteArea = document.getElementById('pasteArea');
   const fileInput = document.getElementById('formFile');
+  const pasteArea = document.getElementById('pasteArea');
+  const previewContainer = document.getElementById('previewContainer');
 
-  // Access webcam
+  canvas.width = 640;
+  canvas.height = 480;
+
+  // Webcam access
   navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-      video.srcObject = stream;
-    })
-    .catch(err => {
-      console.error("Error accessing webcam: ", err);
-    });
+    .then(stream => video.srcObject = stream)
+    .catch(err => console.error("Webcam error:", err));
 
-  // Capture image from the video feed
-  captureButton.addEventListener('click', function () {
+  // Capture image from webcam
+  captureButton.addEventListener('click', () => {
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    // Get the image as a data URL
     const imageDataURL = canvas.toDataURL('image/png');
 
-    // Display the captured image
-    const img = new Image();
-    img.src = imageDataURL;
-    img.id = 'capturedImage';
-    img.alt = 'Captured Image';
-    document.body.appendChild(img);
-
-    // Create a Blob from the data URL
-    const data = atob(imageDataURL.split(',')[1]);
-    const buffer = new ArrayBuffer(data.length);
-    const view = new Uint8Array(buffer);
-    for (let i = 0; i < data.length; i++) {
-      view[i] = data.charCodeAt(i);
+    // Create file from canvas
+    const byteString = atob(imageDataURL.split(',')[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const intArray = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      intArray[i] = byteString.charCodeAt(i);
     }
-    const file = new File([buffer], "captured-image.png", { type: "image/png" });
+    const file = new File([intArray], "captured-image.png", { type: "image/png" });
 
-    // Set the captured image file into the input for upload
+    // Assign to file input
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(file);
     fileInput.files = dataTransfer.files;
-    capturedFileInput.value = imageDataURL;  // Set the base64 string into hidden field for form submission
+
+    // Show preview
+    previewContainer.innerHTML = `<img src="${imageDataURL}" alt="Captured Image"/>`;
   });
 
-  // Paste image handling
-  pasteArea.addEventListener('paste', function (event) {
+  // Handle paste image
+  pasteArea.addEventListener('paste', (event) => {
     const items = (event.clipboardData || window.clipboardData).items;
 
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      if (item.type.indexOf("image") === 0) {
+    for (let item of items) {
+      if (item.type.startsWith("image")) {
         const blob = item.getAsFile();
-
-        // Ensure the blob has a valid name and type for upload
         const file = new File([blob], "pasted-image.png", { type: blob.type });
 
-        // Add the file to the file input
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
         fileInput.files = dataTransfer.files;
 
-        // Preview the pasted image
         const reader = new FileReader();
         reader.onload = function (e) {
-          pasteArea.innerHTML = `<img src="${e.target.result}" alt="Preview" class="img-fluid"/>`;
+          previewContainer.innerHTML = `<img src="${e.target.result}" alt="Pasted Image"/>`;
         };
-        reader.readAsDataURL(blob);
+        reader.readAsDataURL(file);
 
         break;
       }
     }
   });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>

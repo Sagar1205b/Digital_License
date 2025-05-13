@@ -4,6 +4,8 @@ import com.sagar.Digital.Digital_License.Model.Recgonition.FaceResponse;
 import com.sagar.Digital.Digital_License.Service.FaceResponseService;
 import com.sagar.Digital.Digital_License.Util.InstagramImageExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,10 @@ public class FaceResponseController {
     private FaceResponseService faceResponseService;
 
     @GetMapping("/recognitionPage")
-    public String showRecognitonPage(){
+    public String showRecognitonPage(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username",username);
 
         return "faceResponse";
     }

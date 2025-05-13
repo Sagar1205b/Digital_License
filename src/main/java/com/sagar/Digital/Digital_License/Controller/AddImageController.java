@@ -8,6 +8,8 @@ import com.sagar.Digital.Digital_License.Service.SubjectService;
 import com.sagar.Digital.Digital_License.Util.MultipartInputStreamFileResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,9 @@ public class AddImageController {
 
     @GetMapping("/subject-dropdown")
     public String getSubjectDropdown(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username",username);
         List<String> subjects = subjectService.getAllSubjects();
         model.addAttribute("subjects", subjects);
         return "UploadFile"; // Return the view that displays the dropdown

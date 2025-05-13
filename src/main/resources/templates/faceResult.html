@@ -4,6 +4,29 @@
     <title>Face Result</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="#page-top">
+            <!--                    <img src="assets/img/navbar-logo.svg" alt="..." />-->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars ms-1"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/index}"><span th:text="${username}"></span></a></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject-dropdown}">AddImage</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/subject/create}">Create-Folder</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/recognitionPage}">Recognition</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/digital/getVerification}">Verification</a></li>
+                <li class="nav-item" th:if="${username!=null}"><a class="nav-link" th:href="@{/digital/logout}">logout</a></li>
+                <li class="nav-item" th:if="${username==null}"><a class="nav-link" th:href="@{/digital/LoginPage} ">Login</a></li>
+                <li class="nav-item" th:if="${username==null}"><a class="nav-link" th:href="@{/digital/signup}">SignUp</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <h1>Face Recognition Result</h1>
 <div th:each="result : ${faceResponse.result}">
 
