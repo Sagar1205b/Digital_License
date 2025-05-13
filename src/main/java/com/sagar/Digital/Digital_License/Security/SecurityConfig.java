@@ -59,7 +59,7 @@ public class SecurityConfig {
                         form
                                 .loginPage("/digital/LoginPage")
                                 .loginProcessingUrl("/authenticateTheUser")
-                                .defaultSuccessUrl("/digital/index", true)
+                                .defaultSuccessUrl("/digital/home", true)
                                 .permitAll()
                 )
 //                to logout from home page

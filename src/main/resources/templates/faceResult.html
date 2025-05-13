@@ -2,6 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Face Result</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -27,23 +37,28 @@
         </div>
     </div>
 </nav>
-<h1>Face Recognition Result</h1>
-<div th:each="result : ${faceResponse.result}">
+<header class="masthead">
+    <div class="container">
+        <h1>Face Recognition Result</h1>
+        <div th:each="result : ${faceResponse.result}">
 
-    <!-- Display Subject -->
-    <div th:text="'Subject: ' + ${result.subjects[0].subject}"></div>
+            <!-- Display Subject -->
+            <div th:text="'Subject: ' + ${result.subjects[0].subject}"></div>
 
-    <!-- Display Age Range -->
+            <!-- Display Age Range -->
 
-    <!-- Display Gender -->
-<!--    <div th:text="'Gender: ' + ${result.gender != null ? result.gender.value : 'Not Available'}"></div>-->
-    <div th:text="'Similarity: ' + ${result.subjects[0].similarity}"></div>
-    <div th:if="${result.subjects[0].similarity > 0.87}">
-        <button th:text="'Report'">Report</button>
+            <!-- Display Gender -->
+            <!--    <div th:text="'Gender: ' + ${result.gender != null ? result.gender.value : 'Not Available'}"></div>-->
+            <div th:text="'Similarity: ' + ${result.subjects[0].similarity}"></div>
+            <div th:if="${result.subjects[0].similarity > 0.87}">
+                <button th:text="'Report'">Report</button>
+            </div>
+
+
+        </div>
+
     </div>
-
-
-</div>
+</header>
 
 </body>
 </html>
