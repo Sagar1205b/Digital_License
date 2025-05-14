@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: Digital_license
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  springboot-app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/Digital_license
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+
+  compreface:
+    image: exadel/compreface:latest
+    ports:
+      - "8000:8000"
+    environment:
+
+      POSTGRES_USER: sbadammanavar@gmail.com
+      POSTGRES_PASSWORD: Digital@2025
+    restart: always
+
+volumes:
+  pgdata:
