@@ -39,7 +39,7 @@ public class SecurityConfig {
                 "SELECT username, password,true FROM license_holder WHERE username = ?"
         );
 
-        // Skip authorities (roles) for now, if not needed
+//         Skip authorities (roles) for now, if not needed
         manager.setAuthoritiesByUsernameQuery(
                 "SELECT username, 'ROLE_USER' FROM license_holder WHERE username = ?"
         );
@@ -63,7 +63,13 @@ public class SecurityConfig {
                                 .permitAll()
                 )
 //                to logout from home page
-                .logout(logout ->logout.permitAll()
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // optional, defaults to /logout
+                        .logoutSuccessUrl("/digital/LoginPage?logout") // redirect after logout
+                        .invalidateHttpSession(true) // clears the session
+                        .clearAuthentication(true)   // removes the authentication
+                        .deleteCookies("JSESSIONID") // deletes session cookie
+                        .permitAll()
                 )
                 .exceptionHandling(configurer->
                         configurer.accessDeniedPage("/digital/access-denied"));

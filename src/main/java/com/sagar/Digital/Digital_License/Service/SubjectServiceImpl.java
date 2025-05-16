@@ -69,7 +69,10 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public List<String> getAllSubjects() {
-        return subjectRepository.findAllDistinctSubjects();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // Get the current username
+        return subjectRepository.findSubjectsByUsername(username);
     }
 
 

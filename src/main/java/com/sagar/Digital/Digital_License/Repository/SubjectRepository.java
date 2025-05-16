@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface SubjectRepository extends JpaRepository<SubjectUser,Integer> {
 
-    @Query("SELECT DISTINCT Subject FROM SubjectUser")
-    List<String> findAllDistinctSubjects();
+//    @Query("SELECT DISTINCT Subject FROM SubjectUser")
+//    List<String> findAllDistinctSubjects();
+
+    @Query("SELECT DISTINCT s.Subject FROM SubjectUser s WHERE s.licenseHolder.username = :username")
+    List<String> findSubjectsByUsername(String username);
+
 }

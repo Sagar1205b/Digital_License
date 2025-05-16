@@ -10,4 +10,6 @@ public interface SubjectService {
     SubjectUser save(SubjectUser subjectUser);
     SubjectUser createAndSaveSubject(String subject);
     List<String> getAllSubjects();
+
+
 }
