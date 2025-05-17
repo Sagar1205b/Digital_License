@@ -35,6 +35,9 @@ public class FaceResponseController {
            Model model,
             @RequestParam("file") MultipartFile file)
     {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username",username);
 
         try {
          FaceResponse faceResponse = faceResponseService.faceResponse(file);

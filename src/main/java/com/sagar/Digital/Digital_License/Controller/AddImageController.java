@@ -2,12 +2,9 @@ package com.sagar.Digital.Digital_License.Controller;
 
 
 import com.sagar.Digital.Digital_License.Model.AddImage;
-import com.sagar.Digital.Digital_License.Model.SubjectRequest;
 import com.sagar.Digital.Digital_License.Service.AddImageService;
 import com.sagar.Digital.Digital_License.Service.SubjectService;
-import com.sagar.Digital.Digital_License.Util.MultipartInputStreamFileResource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,10 +20,17 @@ import java.util.List;
 public class AddImageController {
 
     @Autowired
-    private AddImageService addImageService;
+    private final AddImageService addImageService;
+    
 
     @Autowired
-    private SubjectService subjectService;
+    private final SubjectService subjectService;
+
+    public AddImageController(AddImageService addImageService, SubjectService subjectService) {
+        this.addImageService = addImageService;
+        this.subjectService = subjectService;
+    }
+
 
     @GetMapping("/subject-dropdown")
     public String getSubjectDropdown(Model model) {

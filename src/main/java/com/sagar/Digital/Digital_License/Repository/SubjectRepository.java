@@ -14,4 +14,7 @@ public interface SubjectRepository extends JpaRepository<SubjectUser,Integer> {
     @Query("SELECT DISTINCT s.Subject FROM SubjectUser s WHERE s.licenseHolder.username = :username")
     List<String> findSubjectsByUsername(String username);
 
+//    List<SubjectUser> findByLicenseHolder_Username(String username);
+
+
 }
