@@ -49,5 +49,6 @@ PostgreSQL    CompreFace API (hosted separately)
 I'm Sagar, a full-stack Java developer who loves solving real-world problems using Spring Boot, AI APIs, and modern web architecture.
  I’m actively looking for full-time  roles in Java backend or full-stack development.
   Email: sbadammanavar@gmail.com
-  Phone: +91 9380179620d
+  Phone: +91 9380179620
+  
   
